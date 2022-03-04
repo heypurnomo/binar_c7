@@ -1,0 +1,26 @@
+[
+  {
+    "email": "admin@admin.com",
+    "password": "admin098",
+    "role": "admin",
+    "name": "Pipin Angga Purnomo",
+    "gender": "Male",
+    "birthday": "01-01-2001"
+  },
+  {
+    "email": "dlowis0@gmail.com",
+    "password": "password00",
+    "role": "user",
+    "name": "Gerianna MacPhaden",
+    "gender": "Male",
+    "birthday": "06-30-1998"
+  },
+  {
+    "email": "rvint1@gmail.com",
+    "password": "password00",
+    "role": "user",
+    "name": "Alessandro Stainton",
+    "gender": "Female",
+    "birthday": "05-06-1995"
+  }
+]
