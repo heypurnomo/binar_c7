@@ -67,15 +67,16 @@ class AuthController {
     try {
       const {email, password} = req.body;
       const user = await User.findOne({where: {email}});
+      if (!user) throw Error('invalid email or password');
       const auth = await bcrypt.compare(password, user.password);
-      if (!user || !auth) throw Error('invalid email or password');
+      if (!auth) throw Error('invalid email or password');
       const token = createToken(user.id);
       res.cookie('token', token, {
         httpOnly: true, maxAge: maxAge * 1000
       });
       res.status(200).json({id: user.id});
     } catch (err) {
-      res.status(400).json({emessage: err.message})
+      res.status(400).json({message: err.message})
     }
   }
 
