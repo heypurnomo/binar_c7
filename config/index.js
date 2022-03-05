@@ -4,4 +4,5 @@ module.exports = {
   PG_USERNAME: process.env.PG_USERNAME || 'postgres',
   PG_PASSWORD: process.env.PG_PASSWORD || 'password',
   PG_DATABASE: process.env.PG_DATABASE || 'pipin_c7',
+  JWT_SECRET: process.env.JWT_SIGN || 'shJrtRlklDTNnDRdkmmddHuHudrDRNknmsdJSJ'
 }
