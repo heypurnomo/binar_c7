@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Biodata } = require('../models');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { JWT_SECRET } = require('../config');
@@ -10,7 +10,7 @@ function createToken(id) {
 }
 
 // error handler signup
-function signupErrorhandler(err) {
+function errorHandler(err) {
   const errors = {};
   if (err.name === 'SequelizeValidationError') {
     err.errors.forEach(e => {
@@ -37,19 +37,29 @@ class AuthController {
 
   static async signupPost(req, res) {
     try {
-      const user = await User.create(req.body);
-      const bio = await user.createBiodata(req.body).catch((err) => {
-        user.destroy();
-        throw err
-      });
-      const [{id, email, role}, {name, gender, birthday}] = [user, bio]
-      res.cookie('token', createToken(id), { 
+      let errors;
+      const user = await User
+        .create(req.body)
+        .catch(err => {
+          const error = errorHandler(err);
+          errors = { ...error };
+        })
+      const bio = await Biodata
+        .create(req.body)
+        .catch(err => {
+          if (user) user.destroy();
+          const error = errorHandler(err);
+          errors = { ...errors, ...error};
+        })
+      if (errors) throw errors;
+      user.setBiodata(bio);
+      res.cookie('token', createToken(user.id), { 
         httpOnly: true, maxAge: maxAge * 1000 
       });
-      res.status(201).json({id, email, role, name, gender, birthday});
+      const [{ password, ...akunUser }, { userId, id, ...dataUser }] = [user.dataValues, bio.dataValues];
+      res.status(201).json({ ...akunUser, ...dataUser });
     } catch (err) {
-      const errors = signupErrorhandler(err);
-      res.status(400).json(errors);
+      res.status(400).json(err);
     }
   }
 
@@ -74,10 +84,5 @@ class AuthController {
     res.status(200).json({message: 'logged out'})
   }
 }
-
-// User.findOne({
-//   where: { id: 1 },
-//   include: 'Biodata'
-// }).then(data => console.log(data))
 
 module.exports= AuthController
