@@ -2,28 +2,12 @@ const { User, Biodata } = require('../models');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { JWT_SECRET } = require('../config');
+const validationHandler = require('../helpers/validationHandler');
 
 // create json webtoken
 const maxAge = 3 * 24 * 60 * 60;
 function createToken(id) {
   return jwt.sign({id}, JWT_SECRET, {expiresIn: maxAge});
-}
-
-// error handler signup
-function errorHandler(err) {
-  const errors = {};
-  if (err.name === 'SequelizeValidationError') {
-    err.errors.forEach(e => {
-      errors[e.path] = e.message
-    })
-  } else if (err.name === 'SequelizeUniqueConstraintError') {
-    err.errors.forEach(e => {
-      errors[e.path] = `${e.path} already exist`
-    })
-  } else {
-    return err
-  }
-  return errors
 }
 
 class AuthController {
@@ -37,21 +21,21 @@ class AuthController {
 
   static async signupPost(req, res) {
     try {
-      let errors;
+      let notValids;
       const user = await User
         .create(req.body)
         .catch(err => {
-          const error = errorHandler(err);
-          errors = { ...error };
+          const notValid = validationHandler(err);
+          if (notValid) notValids = { ...notValid };
         })
       const bio = await Biodata
         .create(req.body)
         .catch(err => {
           if (user) user.destroy();
-          const error = errorHandler(err);
-          errors = { ...errors, ...error};
+          const notValid = validationHandler(err);
+          if (notValid) notValids = { ...notValids, ...notValid};
         })
-      if (errors) throw errors;
+      if (notValids) throw notValids;
       user.setBiodata(bio);
       res.cookie('token', createToken(user.id), { 
         httpOnly: true, maxAge: maxAge * 1000 

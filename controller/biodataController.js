@@ -1,4 +1,5 @@
 const { Biodata } = require('../models');
+const validationHandler = require('../helpers/validationHandler');
 
 class BiodataController {
   static async findAll(req, res) {
@@ -28,27 +29,11 @@ class BiodataController {
       bio[0] ? res.status(200).json(bio) 
       : res.status(400).json(bio)
     } catch (error) {
-      const validation = errorHandler(error)
+      const validation = validationHandler(error)
       validation ? res.status(400).json(validation)
       : res.status(500).json(error);
     }
   }
-}
-
-function errorHandler(err) {
-  const errors = {};
-  if (err.name === 'SequelizeValidationError') {
-    err.errors.forEach(e => {
-      errors[e.path] = e.message
-    })
-  } else if (err.name === 'SequelizeUniqueConstraintError') {
-    err.errors.forEach(e => {
-      errors[e.path] = `${e.path} already exist`
-    })
-  } else {
-    return false
-  }
-  return errors
 }
 
 module.exports = BiodataController

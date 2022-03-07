@@ -1,5 +1,6 @@
 const { User, Biodata, sequelize } = require('../models');
 const { QueryTypes } = require('sequelize')
+const validationHandler = require('../helpers/validationHandler')
 
 class UserController {
   static async findAll(req, res) {
@@ -26,21 +27,21 @@ class UserController {
 
   static async create(req, res) {
     try {
-      let errors;
+      let notValids;
       const user = await User
         .create(req.body)
         .catch(err => {
-          const error = errorHandler(err);
-          errors = { ...error };
+          const notValid = validationHandler(err);
+          if (notValid) notValids = { ...notValid };
         })
       const bio = await Biodata
         .create(req.body)
         .catch(err => {
           if (user) user.destroy();
-          const error = errorHandler(err);
-          errors = { ...errors, ...error};
+          const notValid = validationHandler(err);
+          if (notValid) notValids = { ...notValids, ...notValid};
         })
-      if (errors) throw errors;
+      if (notValids) throw notValids;
       user.setBiodata(bio);
       const [{ password, ...akunUser }, { userId, id, ...dataUser }] = [user.dataValues, bio.dataValues];
       res.status(201).json({ ...akunUser, ...dataUser });
@@ -58,7 +59,7 @@ class UserController {
       user[0] ? res.status(200).json({message: 'update successful'})
       : res.status(404).json({message: `user doesn't exist`});
     } catch (err) {
-      const errors = errorHandler(err);
+      const errors = validationHandler(err);
       res.status(400).json(errors)
     }
   }
@@ -75,22 +76,6 @@ class UserController {
     }
   }
   
-}
-
-function errorHandler(err) {
-  const errors = {};
-  if (err.name === 'SequelizeValidationError') {
-    err.errors.forEach(e => {
-      errors[e.path] = e.message
-    })
-  } else if (err.name === 'SequelizeUniqueConstraintError') {
-    err.errors.forEach(e => {
-      errors[e.path] = `${e.path} already exist`
-    })
-  } else {
-    return err
-  }
-  return errors
 }
 
 module.exports = UserController;
