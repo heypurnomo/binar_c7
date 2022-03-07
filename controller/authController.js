@@ -4,14 +4,6 @@ const validationHandler = require('../helpers/validationHandler');
 const { createToken, maxAge } = require('../helpers/tokenHandler');
 
 class AuthController {
-  static signupGet(req, res) {
-    res.render('signup')
-  }
-
-  static loginGet(req, res) {
-    res.render('login')
-  }
-
   static async signupPost(req, res) {
     try {
       let notValids;
