@@ -1,14 +1,7 @@
 const { User, Biodata } = require('../models');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { JWT_SECRET } = require('../config');
 const validationHandler = require('../helpers/validationHandler');
-
-// create json webtoken
-const maxAge = 3 * 24 * 60 * 60;
-function createToken(id) {
-  return jwt.sign({id}, JWT_SECRET, {expiresIn: maxAge});
-}
+const { createToken, maxAge } = require('../helpers/tokenHandler');
 
 class AuthController {
   static signupGet(req, res) {
@@ -37,8 +30,8 @@ class AuthController {
         })
       if (notValids) throw notValids;
       user.setBiodata(bio);
-      res.cookie('token', createToken(user.id), { 
-        httpOnly: true, maxAge: maxAge * 1000 
+      res.cookie('token', createToken({id: user.id}), { 
+        httpOnly: true, maxAge: maxAge * 1000
       });
       const [{ password, ...akunUser }, { userId, id, ...dataUser }] = [user.dataValues, bio.dataValues];
       res.status(201).json({ ...akunUser, ...dataUser });
@@ -54,7 +47,7 @@ class AuthController {
       if (!user) throw Error('invalid email or password');
       const auth = await bcrypt.compare(password, user.password);
       if (!auth) throw Error('invalid email or password');
-      const token = createToken(user.id);
+      const token = createToken({id: user.id});
       res.cookie('token', token, {
         httpOnly: true, maxAge: maxAge * 1000
       });
