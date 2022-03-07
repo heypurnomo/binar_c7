@@ -46,6 +46,10 @@ module.exports = (sequelize, DataTypes) => {
         notNull: {msg: 'cannot be null'},
         isInt: {msg: 'win must be number'}
       }
+    },
+    result: {
+      type: DataTypes.ENUM,
+      values: ['win', 'lose', 'darw']
     }
   }, {
     sequelize,
@@ -54,10 +58,12 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
     updatedAt: false,
     createdAt: 'playAt',
-    getterMethods: {
-      result() {
-        return (this.roundWin > this.roundLose) ? 'win'
-        : (this.roundWin < this.roundLose) ? 'lose' : 'draw';
+    hooks: {
+      beforeCreate: function(user, options) {
+        const win = user.roundWin;
+        const lose = user.roundLose;
+        const result = (win > lose) ? 'win' : (lose > win) ? 'lose' : 'draw';
+        user.result = result;
       }
     }
   });

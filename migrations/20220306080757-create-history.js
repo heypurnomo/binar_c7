@@ -20,6 +20,9 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      result: {
+        type: Sequelize.ENUM('win', 'lose', 'draw')
+      },
       userId: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
