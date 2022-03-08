@@ -22,11 +22,11 @@ class AuthController {
         })
       if (notValids) throw notValids;
       user.setBiodata(bio);
-      res.cookie('token', createToken({id: user.id}), { 
+      const [{ password, ...userWithoutPw }, { userId, id, ...dataUser }] = [user.dataValues, bio.dataValues];
+      res.cookie('token', createToken({...userWithoutPw, ...dataUser}), { 
         httpOnly: true, maxAge: maxAge * 1000
       });
-      const [{ password, ...akunUser }, { userId, id, ...dataUser }] = [user.dataValues, bio.dataValues];
-      res.status(201).json({ ...akunUser, ...dataUser });
+      res.status(201).json({ ...userWithoutPw, ...dataUser });
     } catch (err) {
       res.status(400).json(err);
     }
@@ -34,12 +34,14 @@ class AuthController {
 
   static async loginPost(req, res) {
     try {
-      const {email, password} = req.body;
+      var {email, password} = req.body;
       const user = await User.findOne({where: {email}});
       if (!user) throw Error('invalid email or password');
       const auth = await bcrypt.compare(password, user.password);
       if (!auth) throw Error('invalid email or password');
-      const token = createToken({id: user.id});
+      const biodata = await Biodata.findOne({where: {userId: user.id}});
+      var [{password, ...userWithoutPw},{id, userId, ...bio}] = [user.dataValues, biodata.dataValues];
+      const token = createToken({...userWithoutPw, ...bio});
       res.cookie('token', token, {
         httpOnly: true, maxAge: maxAge * 1000
       });
