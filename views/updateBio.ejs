@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/head') %>
+</head>
+<body>
+  <%- include('./partials/navbar', {user})  %>
+    <div id="content" class="bg-1">
+      <div id="form-wrap">
+        <h1 class="form-title">Sign Up</h1>
+        <form action="/signup" method="post">
+          <div class="input-wrap">
+            <i class="bi bi-person"></i>
+            <input type="text" name="name" placeholder="Name" value="<%=user.name%>">
+          </div>
+          <div class="name error"></div>
+          <div class="radio-wrap">
+            <div class="input-wrap">
+              <i class="bi bi-gender-male"></i>
+              <label for="male">Male</label>
+              <input type="radio" name="gender" value="Male" id="male" <% if (user.gender === 'Male'){ %>checked<% } %>>
+            </div>
+            <div class="input-wrap">
+              <i class="bi bi-gender-female"></i>
+              <label for="female">Female</label>
+              <input type="radio" name="gender" value="Female" id="female" <% if (user.gender === 'Female'){ %>checked<% } %>>
+            </div>
+          </div>
+          <div class="gender error"></div>
+          <div class="input-wrap">
+            <i class="bi bi-activity"></i>
+            <input type="date" name="birthday" placeholder="Birthday" value="<%=user.birthday%>">
+          </div>
+          <div class="birthday error"></div>
+          <input type="hidden" name=userId value="<%=user.id%>">
+          <button type="submit">Sign Up</button>
+        </form>
+      </div>
+    </div>
+</body>
+</html>
+
+<script>
+  const inputWraps = document.querySelectorAll('.input-wrap');
+  const icons = document.querySelectorAll('form i');
+  const inputs = document.querySelectorAll('form input:not(input[name=show-password])');
+
+  inputs.forEach((input, i) => {
+    input.addEventListener('focus', () => {
+      icons[i].style.color = 'var(--purple)';
+      inputWraps[i].style.border = '3px solid var(--purple)';
+    })
+    input.addEventListener('blur', () => {
+      icons[i].style.color = 'var(--grey1)';
+      inputWraps[i].style.border = '1px solid var(--grey3)';
+    })
+  })
+
+  // fetch
+  const userId = document.querySelector('input[name=userId]').value;
+  const submit = document.querySelector('button[type=submit]');
+  const form = document.querySelector('form');
+
+  const nameInvalid = document.querySelector('.name.error');
+  const genderInvalid = document.querySelector('.gender.error');
+  const birthdayInvalid = document.querySelector('.birthday.error');
+  submit.addEventListener('click', async function (element) {
+    element.preventDefault();
+
+    nameInvalid.textContent = '';
+    genderInvalid.textContent = '';
+    birthdayInvalid.textContent = '';
+
+    const name = form.name.value;
+    const gender = form.gender.value;
+    const birthday = form.birthday.value;
+
+    try {
+      const res = await fetch(`/api/v1/biodata/${userId}`, {
+        method: 'PUT',
+        body: JSON.stringify({name, gender, birthday}),
+        headers: {'Content-Type': 'application/json'}
+      });
+      const data = await res.json();
+      if (!data.message) {
+        location.assign('/profil');
+      } else {
+        nameInvalid.textContent = data.name;
+        genderInvalid.textContent = data.gender;
+        birthdayInvalid.textContent = data.birthday;
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  })
+</script>

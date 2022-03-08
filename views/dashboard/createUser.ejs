@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <%- include('../partials/navbar', {user})  %>
+    <div id="content" class="bg-1">
+      <div id="form-wrap">
+        <h1 class="form-title">Create User</h1>
+        <form action="/signup" method="post">
+          <div class="input-wrap">
+            <i class="bi bi-person"></i>
+            <input type="text" name="name" placeholder="Name" maxlength="30">
+          </div>
+          <div class="name error"></div>
+          <div class="radio-wrap">
+            <div class="input-wrap">
+              <i class="bi bi-gender-male"></i>
+              <label for="male">Male</label>
+              <input type="radio" name="gender" value="Male" id="male">
+            </div>
+            <div class="input-wrap">
+              <i class="bi bi-gender-female"></i>
+              <label for="female">Female</label>
+              <input type="radio" name="gender" value="Female" id="female">
+            </div>
+          </div>
+          <div class="gender error"></div>
+          <div class="input-wrap">
+            <i class="bi bi-activity"></i>
+            <input type="date" name="birthday" placeholder="Birthday">
+          </div>
+          <div class="birthday error"></div>
+          <div class="input-wrap">
+            <i class="bi bi-envelope"></i>
+            <input type="text" name="email" placeholder="Email" maxlength="50">
+          </div>
+          <div class="email error"></div>
+          <div class="input-wrap">
+            <i class="bi bi-shield-lock"></i>
+            <input type="password" name="password" placeholder="Password">
+          </div>
+          <div class="password error"></div>
+          <div>
+            <input type="checkbox" name="show-password" id="show-password">
+            <label for="show-password">show password</label>
+          </div>
+          <button type="submit">Sign Up</button>
+        </form>
+      </div>
+    </div>
+</body>
+</html>
+
+<script>
+  const inputWraps = document.querySelectorAll('.input-wrap');
+  const icons = document.querySelectorAll('form i');
+  const inputs = document.querySelectorAll('form input:not(input[name=show-password])');
+
+  inputs.forEach((input, i) => {
+    input.addEventListener('focus', () => {
+      icons[i].style.color = 'var(--purple)';
+      inputWraps[i].style.border = '3px solid var(--purple)';
+    })
+    input.addEventListener('blur', () => {
+      icons[i].style.color = 'var(--grey1)';
+      inputWraps[i].style.border = '1px solid var(--grey3)';
+    })
+  })
+
+  const password = document.querySelector('[name=password]');
+  const showPassword = document.querySelector('#show-password');
+
+  showPassword.addEventListener('change', function () {
+    if (this.checked) {
+      password.type = 'text';
+      password.focus();
+    } else {
+      password.type = 'password';
+      password.blur();
+    }
+  })
+
+  // fetch
+  const submit = document.querySelector('button[type=submit]');
+  const form = document.querySelector('form');
+  const emailInvalid = document.querySelector('.email.error');
+  const passwordInvalid = document.querySelector('.password.error');
+  const nameInvalid = document.querySelector('.name.error');
+  const genderInvalid = document.querySelector('.gender.error');
+  const birthdayInvalid = document.querySelector('.birthday.error');
+  submit.addEventListener('click', async function (element) {
+    element.preventDefault();
+
+    emailInvalid.textContent = '';
+    passwordInvalid.textContent = '';
+    nameInvalid.textContent = '';
+    genderInvalid.textContent = '';
+    birthdayInvalid.textContent = '';
+
+    const email = form.email.value;
+    const password = form.password.value;
+    const name = form.name.value;
+    const gender = form.gender.value;
+    const birthday = form.birthday.value;
+
+    try {
+      const res = await fetch('/api/v1/user', {
+        method: 'POST',
+        body: JSON.stringify({email, password, name, gender, birthday}),
+        headers: {'Content-Type': 'application/json'}
+      });
+      const data = await res.json();
+      if (data.id) {
+        location.assign('/dashboard/user');
+      } else {
+        emailInvalid.textContent = data.email;
+        passwordInvalid.textContent = data.password;
+        nameInvalid.textContent = data.name;
+        genderInvalid.textContent = data.gender;
+        birthdayInvalid.textContent = data.birthday;
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  })
+</script>

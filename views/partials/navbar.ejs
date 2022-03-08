@@ -1,0 +1,16 @@
+<nav>
+  <a href="/" class="logo">gamesuit</a>
+  <% if (user && user.role === 'admin') { %>
+      <a href="/dashboard/user" class="nav-btn">dashboard</a>
+  <% } %>
+  <ul>
+    <% if (user) { %>
+      <li>Hi, <%= user.name %></li>
+      <li><a href="/profil" class="nav-btn">Profil</a></li>
+      <li><a href="/logout" class="nav-btn">Logout</a></li>
+    <% } else { %>
+      <li><a href="/signup" class="nav-btn">Signup</a></li>
+      <li><a href="/login" class="nav-btn">Login</a></li>
+    <% } %> 
+  </ul>
+</nav>

@@ -1,0 +1,41 @@
+[
+  {
+    "email": "admin@admin.com",
+    "password": "admin098",
+    "role": "admin",
+    "name": "Pipin Angga Purnomo",
+    "gender": "Male",
+    "birthday": "2001-01-01",
+    "histories": [
+      {"roundWin":2, "roundDraw":4, "roundLose":2},
+      {"roundWin":4, "roundDraw":1, "roundLose":0},
+      {"roundWin":3, "roundDraw":3, "roundLose":2}
+    ]
+  },
+  {
+    "email": "user01@gmail.com",
+    "password": "password00",
+    "role": "user",
+    "name": "Gerianna MacPhaden",
+    "gender": "Male",
+    "birthday": "1998-06-25",
+    "histories": [
+      {"roundWin":1, "roundDraw":6, "roundLose":1},
+      {"roundWin":4, "roundDraw":2, "roundLose":0},
+      {"roundWin":2, "roundDraw":3, "roundLose":3}
+    ]
+  },
+  {
+    "email": "user02@gmail.com",
+    "password": "password00",
+    "role": "user",
+    "name": "Alessandro Stainton",
+    "gender": "Female",
+    "birthday": "1995-12-27",
+    "histories": [
+      {"roundWin":0, "roundDraw":8, "roundLose":0},
+      {"roundWin":5, "roundDraw":0, "roundLose":0},
+      {"roundWin":2, "roundDraw":0, "roundLose":5}
+    ]
+  }
+]

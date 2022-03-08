@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap');
+:root{
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    font-size: calc(3.1px + 0.9vw);
+    text-transform: uppercase;
+}
+body{
+    background-color: rgba(156, 131, 95, 1); 
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+a{
+    text-decoration: none;
+    font-size: 4.5rem;
+    color:rgba(114, 76, 33, 1);
+}
+.text-title{
+    font-size: 2.25rem;
+    text-transform: uppercase;
+    color: rgba(249, 178, 61, 1);
+}
+.text-nama{
+    font-size: 2.25rem;
+    letter-spacing: 0.1em;
+    color: rgba(0, 0, 0, 1);
+    margin: 1rem 0;
+}
+.text-vs{
+    font-size: 9rem;
+    letter-spacing: 0.1em;
+    color: rgba(189, 0, 0, 1);
+}
+#text-hasil{
+    font-size: 2.375rem;
+    letter-spacing: 0.1em;
+    line-height: 3.25rem;
+    color: rgba(255, 255, 255, 1);
+}
+
+#games{
+    min-height: 400px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+#games header{
+    display: flex;
+    align-items: center;
+    margin-left: 5%;
+}
+#games header img{
+    height: 3.5rem;
+    width: auto;
+    margin: 0 1.5rem;
+}
+#games .box-games{
+    margin: auto;
+    padding: 2% 0;
+    width: 1024px;
+    max-width: 90%;
+    display: flex;
+    text-align: center;
+}
+#games .user-choices,
+#games .com-choices{
+    width: 30%;
+}
+#games .user-choices .choice{
+    cursor: pointer;
+}
+#games .user-choices .hover:hover img{
+    animation: rotasi-user 2s infinite;
+}
+#games .choices{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#games .choices .choice{
+    width: 13.9rem;
+    height: 12.75rem;
+    border-radius: 1.875rem;
+    display: flex;
+}
+#games .choices img{
+    margin: auto;
+}
+#games .choices .batu img{
+    width: 8rem;
+    height: auto;
+}
+#games .choices .kertas img{
+    width: 7.18rem;
+    height: auto;
+}
+#games .choices .gunting img{
+    height: 10rem;
+    width: auto;
+}
+#games .vs-reset{
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#games .vs-reset .box-score{
+    display: flex;
+    align-items: center;
+}
+#games .box-score .score{
+    display: flex;
+    width: 4rem;
+    height: 4rem;
+    background-color: black;
+    margin: 0 2rem;
+    border-radius: 1rem;
+}
+#games .box-score .score h1{
+    margin: auto;
+}
+#games .vs-reset .box-hasil{
+    margin-top: auto;
+}
+#games .vs-reset .hasil{
+    width: 16.94rem;
+    height: 10.4rem;
+    border-radius: 0.625rem;
+    transform: rotateZ(-29deg);
+    background-color: #4c9654;
+    display: none;
+}
+#games .vs-reset .hasil h1{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+#games .vs-reset img{
+    margin-top: auto;
+    width: 4.8rem;
+    height: auto;
+}
+#result {
+    width: 30rem;
+    height: 15rem;
+    margin: auto;
+    border: 1px solid black;
+}
+#result h1 {
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 5rem;
+}
+#result a{
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: black;
+}
+#result a:hover {
+    color: balck;
+    background-color: rgba(249, 178, 61, 1);
+}
+@keyframes rotasi-user {
+    0% {transform: rotateZ(25deg);}
+    80% {transform: rotateZ(-20deg);}
+    100% {transform: rotateZ(25deg);}
+}
+@keyframes rotasi-reset {
+    0% {transform: rotateZ(0deg);}
+    100% {transform: rotateZ(360deg);}
+}
+
+@media only screen and (min-width:1440px){
+    :root{
+        font-size: 16px;
+    }
+}
