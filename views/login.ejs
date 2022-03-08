@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/head') %>
+</head>
+<body>
+  <%- include('./partials/navbar', {user})  %>
+    <div id="content" class="bg-2">
+      <div id="form-wrap">
+        <h1 class="form-title">Log In</h1>
+        <form action="/signup" method="post">
+          <div class="input-wrap">
+            <i class="bi bi-envelope"></i>
+            <input type="text" name="email" placeholder="Email" maxlength="50">
+          </div>
+          <div class="email error"></div>
+          <div class="input-wrap">
+            <i class="bi bi-shield-lock"></i>
+            <input type="password" name="password" id="password" placeholder="Password">
+          </div>
+          <div class="password error"></div>
+          <div>
+            <input type="checkbox" name="show-password" id="show-password">
+            <label for="show-password">show password</label>
+          </div>
+          <button type="submit">Log In</button>
+        </form>
+      </div>
+    </div>
+</body>
+</html>
+
+<script>
+  const inputWraps = document.getElementsByClassName('input-wrap');
+  const icons = document.querySelectorAll('form i');
+  const inputs = document.querySelectorAll('form input:not(input[name=show-password])');
+
+  inputs.forEach((input, i) => {
+    input.addEventListener('focus', () => {
+      icons[i].style.color = 'var(--purple)';
+      inputWraps[i].style.border = '3px solid var(--purple)';
+    })
+    input.addEventListener('blur', () => {
+      icons[i].style.color = 'var(--grey1)';
+      inputWraps[i].style.border = '1px solid var(--grey3)';
+    })
+  })
+
+  const password = document.querySelector('#password');
+  const showPassword = document.querySelector('#show-password');
+
+  showPassword.addEventListener('click', () => {
+    if (showPassword.checked) {
+      password.type = 'text';
+      password.focus();
+    } else {
+      password.type = 'password';
+      password.blur();
+    }
+  })
+
+  // Fetch
+  const submit = document.querySelector('button[type=submit]');
+  const form = document.querySelector('form');
+  const invalid = document.querySelector('.email.error');
+  submit.addEventListener('click', async function(element) {
+    element.preventDefault();
+
+    invalid.textContent = '';
+
+    const email = form.email.value;
+    const password = form.password.value;
+
+    try {
+      const res = await fetch('/api/v1/login', {
+        method: 'POST',
+        body: JSON.stringify({email, password}),
+        headers: {'Content-Type': 'application/json'}
+      });
+      const data = await res.json();
+      if (data.id) {
+        location.assign('/');
+      } else {
+        invalid.textContent = data.message;
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  })
+</script>

@@ -1,0 +1,320 @@
+:root {
+  --black : #111111;
+  --red: #FF3B46;
+  --purple: #6C63FF;
+  --grey1: #444;
+  --grey2: #aaa;
+  --grey3: #999;
+  --danger: #ff0099;
+  --white: white;
+  font-size: 1.2rem;
+}
+*,
+*::after,
+*::before{
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  box-sizing: border-box;
+  position: relative;
+}
+body {
+  min-height: 100vh;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* navbar */
+nav {
+  width: 100%;
+  height: 50px;
+  padding: 0 150px;
+  position: fixed;
+  top: 0;
+  display: flex;
+  align-items: center;
+  background-color: var(--black);
+  color: white;
+  z-index: 1000;
+}
+nav .logo {
+  margin-right: 50px;
+  text-transform: uppercase;
+  font-size: 1.5em;
+  font-weight: 800;
+  letter-spacing: 0px;
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+nav ul li {
+ margin: 0 20px;
+}
+.nav-btn {
+  padding: 5px 10px;
+  border-radius: 10px;
+  text-transform: capitalize;
+}
+.nav-btn:hover {
+  background-color: var(--red);
+  color: var(--black);
+}
+
+/* utils */
+.button {
+  background-color: var(--purple);
+  color: var(--white);
+  padding: 5px 10px;
+  border-radius: 10px;
+  text-transform: capitalize;
+  font-weight: 600;
+  font-size: 1.5em;
+}
+.button:hover {
+  background-color: var(--red);
+  color: var(--black);
+}
+.bg {
+  background-image: url("https://cdna.artstation.com/p/assets/images/images/030/579/498/4k/sixmorevodka-studio-taric-level-01.jpg?1601023585");
+  background-size: cover;
+}
+.bg-1 {
+  background-image: url("https://wallpapercave.com/wp/wp2414970.jpg");
+  background-size: cover;
+}
+.bg-2 {
+  background-image: url("https://1.bp.blogspot.com/-tdeOYEfbuV4/XdxURd6rqlI/AAAAAAAAh9Y/YWrQSFsD8mQmuh1AXu59t22BzfiTS_rZgCLcBGAsYHQ/w0/caitlyn-league-of-legends-art-4k-db-2560x1440.jpg");
+  background-size: cover;
+}
+/* home */
+#content {
+  width: 100%;
+  height: 100vh;
+  padding-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.play-hover{
+  position: absolute;
+  top: 50;
+  left: 50;
+  transform: translateY(-3rem);
+  padding: 5px;
+  background-color: var(--white);
+  border-radius: 6px;
+}
+
+/* form */
+#form-wrap {
+  width: 360px;
+  margin: 0 auto;
+  padding: 5px 20px;
+  box-shadow: 25px 27px 40px rgba(0,0,0,0.8);
+  border-radius: 10px;
+  background: var(--white);
+}
+#form-wrap .form-title {
+  color: var(--purple);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+#form-wrap form {
+  width: 100%;
+  margin-top: 10px;
+}
+#form-wrap .input-wrap {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  border: 1px solid var(--grey3);
+}
+#form-wrap .input-wrap i {
+  margin-right: 10px;
+}
+#form-wrap .input-wrap input{
+  all: unset;
+  width: 100%;
+}
+#form-wrap .input-wrap input[type=radio] {
+  all: revert;
+}
+#form-wrap .radio-wrap{
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+}
+#form-wrap .radio-wrap .input-wrap{
+  margin: 0 2px;
+}
+#form-wrap .radio-wrap .input-wrap:first-child{
+  margin-left: 0;
+}
+#form-wrap .radio-wrap .input-wrap:last-child{
+  margin-right: 0;
+}
+#form-wrap .input-wrap input[type=radio] {
+  margin-left: auto;
+}
+#form-wrap input[type=checkbox]:checked {
+  color: var(--purple);
+}
+#form-wrap label[for=show-password] {
+  font-size: .9rem;
+}
+#form-wrap form button{
+  all: unset;
+  width: 100%;
+  text-align: center;
+  padding: 5px 0;
+  margin-top: 10px;
+  font-weight: 700;
+  color: var(--white);
+  background-color: var(--purple);
+  border-radius: 10px;
+}
+#form-wrap form .error {
+  color: var(--danger);
+  font-size: .8rem;
+  font-weight: bold;
+  padding: 5px;
+}
+
+/* profil */
+#profil {
+  width: 100%;
+  height: 100vh;
+  padding-top: 50px;
+  display: flex;
+}
+#profil .foto {
+  background-color: var(--red);
+  height: 100%;
+  width: 600px;
+}
+#profil .Female{
+  background-image: url('https://www.valoguides.com/images/agents/killjoy/agent_killjoy-min.png');
+  background-position: cover;
+  background-repeat: no-repeat;
+}
+#profil .Male{
+  background-image: url('https://www.valoguides.com/images/agents/yoru/agent_yoru-min.png');
+  background-position: cover;
+  background-repeat: no-repeat;
+}
+#profil .name {
+  width: 100px;
+  height: 100%;
+  margin: 0 20px;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+#profil .name h1 {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: -.8rem;
+}
+#profil .content-wrap {
+  width: calc(100% - 760px);
+  height: 100%;
+  margin: 0 50px 0 20px;
+}
+#profil #bio-wrap {
+  width: 100%;
+  height: 49%;
+  margin-bottom: 1%;
+  display: flex;
+  flex-direction: column;
+}
+#bio-wrap h1 {
+  margin-top: 20%;
+}
+#biodata {
+  flex: 1;
+  width: 100%;
+}
+#biodata ul {
+  list-style: none;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 10px 10px 20px;
+}
+#profil #history-wrap {
+  width: 100%;
+  height: 49%;
+  display: flex;
+  flex-direction: column;
+}
+#history {
+  flex: 1;
+  width: 100%;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+#history::-webkit-scrollbar {
+  height: 7px;
+}
+#history::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: var(--red);
+}
+#history .card {
+  display: inline-block;
+  width: 300px;
+  height: 95%;
+  margin: 7px 5px 0;
+  border: 1px solid black;
+}
+#history .card .head {
+  width: 100%;
+  height: 50%;
+  color: var(--black);
+}
+#history .card .head.win {
+  background-color: green;
+}
+#history .card .head.draw {
+  background-color: yellow;
+}
+#history .card .head.lose {
+  background-color: var(--red);
+}
+#history .card .head h1 {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  text-transform: uppercase;  
+}
+#history .card .body ul {
+  list-style: none;
+  font-size: .9rem;
+  font-weight: 500;
+  margin: 10px 10px;
+}
+
+/* dashboard */
+#dashboard {
+  width: 100%;
+  height: 100vh;
+  padding-top: 100px;
+}
+#dashboard .menu {
+  position: fixed;
+  left: -65px;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+}

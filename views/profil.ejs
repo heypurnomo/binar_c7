@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/head') %>
+</head>
+<body>
+  <%- include('./partials/navbar', {user})  %>
+  <div id="profil">
+    <div class="name">
+      <h1><%= user.name %></h1>
+    </div>
+    <div class="foto <%= user.gender %>"></div>
+    <div class="content-wrap">
+      <div id="bio-wrap">
+        <h1>Biodata</h1>
+        <div id="biodata">
+          <ul>
+            <li>Gender: <%= user.gender %></li>
+            <li>Birth Day: <%= user.birthday %> </li>
+            <li>email : <%= user.email %> </li>
+          </ul>
+          <a href="profil/update" class="button">Update Bio</a>
+        </div>
+      </div>
+      <div id="history-wrap">
+        <h1>History</h1>
+        <div id="history">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  <input type="hidden" name="userId" value="<%= user.id %>">
+</body>
+
+<script>
+  const userId = document.querySelector('input[name=userId]').value;
+  const historyElement = document.getElementById('history');
+
+  window.addEventListener('load', async (e) => {
+    try {
+      const res = await fetch(`/api/v1/history/${userId}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'applicayion/json'}
+      });
+      const histories = await res.json();
+      if (!histories.message) {
+        for (let i = 0; i < histories.length; i++) {
+          const date = histories[i].playAt.split('T');
+          historyElement.innerHTML += `
+            <div class="card">
+              <div class="head ${histories[i].result}">
+                <h1>${histories[i].result}</h1>
+              </div>
+              <div class="body">
+                <ul>
+                  <li>Round Win : ${histories[i].roundWin}</li>
+                  <li>Round Draw : ${histories[i].roundDraw}</li>
+                  <li>Round Lose : ${histories[i].roundLose}</li>
+                  <h4>Play At</h4>
+                  <li>Date: ${date[0]}</li>
+                  <li>Time: ${date[1]}</li>
+                </ul>
+              </div>
+            </div>
+          `;
+        }
+      } else {
+        historyElement.innerHTML = `
+          <h4>anda belum bermain</h4>
+        `;
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  })
+</script>
+</html>
