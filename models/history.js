@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {msg: 'cannot be null'},
-        isInt: {msg: 'win must be number'}
+        isInt: {msg: 'roundWin must be number'}
       }
     },
     roundDraw: {
@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {msg: 'cannot be null'},
-        isInt: {msg: 'win must be number'}
+        isInt: {msg: 'roundDraw must be number'}
       }
     },
     roundLose: {
@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {msg: 'cannot be null'},
-        isInt: {msg: 'win must be number'}
+        isInt: {msg: 'roundLose must be number'}
       }
     },
     result: {
